@@ -1,0 +1,201 @@
+<template>
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-4">Lista de Socios</h1>
+
+    <!-- Botón para agregar un nuevo socio -->
+    <!-- <div class="mt-8">
+      <router-link
+        to="/form-socio"
+        class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+      >
+        Agregar nuevo socio
+      </router-link>
+    </div>
+    -->
+
+    <!-- Búsqueda de socio por DNI -->
+    <div class="mt-8">
+      <h2 class="text-lg font-bold mb-2">Buscar socio por DNI:</h2>
+      <form @submit.prevent="buscarSocio">
+        <div class="flex items-center">
+          <input
+            type="text"
+            v-model="dni"
+            class="border border-gray-300 p-2 rounded-l-md focus:outline-none focus:border-blue-500"
+            placeholder="Buscar por DNI"
+          />
+          <button
+            type="submit"
+            class="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+          >
+            Buscar
+          </button>
+        </div>
+      </form>
+
+      <!-- Lista de socios -->
+      <div v-if="sociosFiltrados.length > 0" class="mt-4">
+        <table class="w-full bg-white border border-gray-300">
+          <thead class="bg-gray-50">
+            <tr>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Nombre
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Apellido
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                DNI
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                ACCIONES
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr v-for="socio in sociosFiltrados" :key="socio.dni">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900">
+                  {{ socio.nombre }}
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-500">{{ socio.apellido }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-500">{{ socio.dni }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <button
+                    id="dropdownMenuIconButton"
+                    data-dropdown-toggle="dropdownDots"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                    type="button"
+                  >
+                    <svg
+                      class="w-6 h-6"
+                      aria-hidden="true"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+                      ></path>
+                    </svg>
+                  </button>
+
+                  <!-- Dropdown menu -->
+                  <div
+                    id="dropdownDots"
+                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+                  >
+                    <ul
+                      class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                      aria-labelledby="dropdownMenuIconButton"
+                    >
+                      <li>
+                        <a
+                          href="#"
+                          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          @click="cargarRecibo(socio.dni)"
+                        >
+                          Cargar recibo
+                        </a>
+                      </li>
+
+                      <li>
+                        <a
+                          href="#"
+                          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          @click="editarSocio(socio)"
+                        >
+                          Editar socio
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div v-else class="mt-4">
+        <p>No se encontraron socios.</p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { ref, watch, onMounted } from "vue"; // Import the `watch` function
+import { useRouter } from "vue-router";
+import socioService from "../../services/socioService";
+
+export default {
+  name: "ListSocio",
+  setup() {
+    const dni = ref("");
+    const socios = ref([]);
+    const router = useRouter();
+
+    // Obtener la lista de socios del servicio socioService al montar el componente
+    socios.value = socioService.getSocios();
+
+    // Filtrar la lista de socios basado en el valor de dni
+    const sociosFiltrados = ref([]);
+    const filtrarSocios = () => {
+      if (dni.value === "") {
+        sociosFiltrados.value = socios.value;
+      } else {
+        sociosFiltrados.value = socios.value.filter((socio) =>
+          socio.dni.includes(dni.value)
+        );
+      }
+    };
+
+    onMounted(() => {
+      filtrarSocios();
+    });
+    // Llamar a la función de búsqueda cada vez que el valor de dni cambie
+    watch(dni, filtrarSocios);
+
+    // Función para buscar al socio por DNI
+    const buscarSocio = () => {
+      console.log("Búsqueda de socio por DNI:", dni.value);
+    };
+
+    // Función para cargar el recibo
+    const cargarRecibo = (dni) => {
+      router.push({ name: "form-recibo", params: { dni } });
+    };
+
+    return {
+      socios,
+      dni,
+      sociosFiltrados,
+      buscarSocio,
+      cargarRecibo,
+    };
+  },
+};
+</script>
+
+<style>
+/* Puedes agregar estilos de Tailwind CSS aquí si es necesario */
+</style>

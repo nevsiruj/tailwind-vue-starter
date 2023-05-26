@@ -11,6 +11,8 @@ import Popover from "../views/Popover.vue";
 import Tabs from "../views/Tabs.vue";
 import Tooltip from "../views/Tooltip.vue";
 import Modal from "../views/Modal.vue";
+import HelloSocio from "../components/socios/HelloSocio.vue";
+import ListSocio from "../components/socios/ListSocio.vue";
 
 const routes = [
   {
@@ -72,6 +74,16 @@ const routes = [
     path: "/modal",
     name: "Modal",
     component: Modal,
+  },
+  {
+    path: "/",
+    name: "HelloSocio",
+    component: HelloSocio,
+  },
+  {
+    path: "/list-socio",
+    name: "ListSocio",
+    component: ListSocio,
   },
 ];
 
