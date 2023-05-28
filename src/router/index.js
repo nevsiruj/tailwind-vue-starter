@@ -13,6 +13,7 @@ import Tooltip from "../views/Tooltip.vue";
 import Modal from "../views/Modal.vue";
 import HelloSocio from "../components/socios/HelloSocio.vue";
 import ListSocio from "../components/socios/ListSocio.vue";
+import FormReciboSocio from "../components/recibos/FormReciboSocio.vue";
 
 const routes = [
   {
@@ -84,6 +85,11 @@ const routes = [
     path: "/list-socio",
     name: "ListSocio",
     component: ListSocio,
+  },
+  {
+    path: "/recibo-socio",
+    name: "recibo-socio",
+    component: FormReciboSocio,
   },
 ];
 

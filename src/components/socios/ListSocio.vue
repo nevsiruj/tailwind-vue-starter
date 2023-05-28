@@ -167,7 +167,7 @@
                   <div class="flex items-center">
                     <button
                       id="dropdownMenuIconButton"
-                      data-dropdown-toggle="dropdownDots"
+                      :data-dropdown-toggle="'dropdownDots' + socio.dni"
                       class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                       type="button"
                     >
@@ -186,7 +186,7 @@
 
                     <!-- Dropdown menu -->
                     <div
-                      id="dropdownDots"
+                      :id="'dropdownDots' + socio.dni"
                       class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
                     >
                       <ul
@@ -195,11 +195,10 @@
                       >
                         <li>
                           <a
-                            href="#"
                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                             @click="cargarRecibo(socio.dni)"
                           >
-                            Cargar recibo
+                            Cargar recibo al socio
                           </a>
                         </li>
 
@@ -268,8 +267,13 @@ export default {
     };
 
     // Función para cargar el recibo
-    const cargarRecibo = (dni) => {
-      router.push({ name: "form-recibo", params: { dni } });
+    const cargarRecibo = (_dni) => {
+      router.push({ name: "recibo-socio", query: { dni: _dni } });
+      // router.push({ path: "/recibo-socio", params: { dni } });
+    };
+
+    const editarSocio = (_socio) => {
+      console.log(_socio);
     };
 
     return {
@@ -278,6 +282,7 @@ export default {
       sociosFiltrados,
       buscarSocio,
       cargarRecibo,
+      editarSocio,
     };
   },
 };
