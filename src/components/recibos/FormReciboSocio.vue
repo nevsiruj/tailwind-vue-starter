@@ -84,8 +84,6 @@ export default {
       const data = router.currentRoute.value.query.dni;
       // alert(data);
       if (data) {
-        // alert(data);
-        console.log(data);
         const socioEncontrado = socios.value.find(
           (socio) => socio.dni === data
         );

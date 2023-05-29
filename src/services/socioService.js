@@ -13,8 +13,6 @@ const socioService = {
 
   registrarSocio(socio) {
     this.socios.push(socio);
-
-    console.log(this.socios);
   },
 };
 

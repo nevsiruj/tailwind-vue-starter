@@ -1,65 +1,3 @@
-<script>
-import { ref, watch, onMounted } from "vue"; // Import the `watch` function
-import { useRouter } from "vue-router";
-import socioService from "../../services/socioService";
-import { initFlowbite, initDropdowns } from "flowbite";
-
-export default {
-  name: "ListSocio",
-  setup() {
-    const dni = ref("");
-    const socios = ref([]);
-    const router = useRouter();
-
-    // Obtener la lista de socios del servicio socioService al montar el componente
-    socios.value = socioService.getSocios();
-
-    // Filtrar la lista de socios basado en el valor de dni
-    const sociosFiltrados = ref([]);
-    const filtrarSocios = () => {
-      if (dni.value === "") {
-        sociosFiltrados.value = socios.value;
-      } else {
-        sociosFiltrados.value = socios.value.filter((socio) =>
-          socio.dni.includes(dni.value)
-        );
-      }
-    };
-
-    onMounted(() => {
-      initFlowbite();
-      filtrarSocios();
-    });
-    // Llamar a la función de búsqueda cada vez que el valor de dni cambie
-    watch(dni, filtrarSocios);
-
-    // Función para buscar al socio por DNI
-    const buscarSocio = () => {
-      console.log("Búsqueda de socio por DNI:", dni.value);
-    };
-
-    // Función para cargar el recibo
-    const cargarRecibo = (_dni) => {
-      router.push({ name: "recibo-socio", query: { dni: _dni } });
-      // router.push({ path: "/recibo-socio", params: { dni } });
-    };
-
-    const editarSocio = (_socio) => {
-      console.log(_socio);
-    };
-
-    return {
-      socios,
-      dni,
-      sociosFiltrados,
-      buscarSocio,
-      cargarRecibo,
-      editarSocio,
-    };
-  },
-};
-</script>
-
 <template>
   <div class="container mx-auto px-4 py-8">
     <h1 class="text-2xl font-bold mb-4">Lista de Socios</h1>
@@ -254,66 +192,69 @@ export default {
       </div>
     </div>
   </div>
-
-  <button
-    id="dropdownMenuIconButton"
-    data-dropdown-toggle="dropdownDots"
-    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-    type="button"
-  >
-    <svg
-      class="w-6 h-6"
-      aria-hidden="true"
-      fill="currentColor"
-      viewBox="0 0 20 20"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
-      ></path>
-    </svg>
-  </button>
-
-  <!-- Dropdown menu -->
-  <div
-    id="dropdownDots"
-    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
-  >
-    <ul
-      class="py-2 text-sm text-gray-700 dark:text-gray-200"
-      aria-labelledby="dropdownMenuIconButton"
-    >
-      <li>
-        <a
-          href="#"
-          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-          >Dashboard</a
-        >
-      </li>
-      <li>
-        <a
-          href="#"
-          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-          >Settings</a
-        >
-      </li>
-      <li>
-        <a
-          href="#"
-          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-          >Earnings</a
-        >
-      </li>
-    </ul>
-    <div class="py-2">
-      <a
-        href="#"
-        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-        >Separated link</a
-      >
-    </div>
-  </div>
 </template>
+
+<script>
+import { ref, watch, onMounted } from "vue"; // Import the `watch` function
+import { useRouter } from "vue-router";
+import socioService from "../../services/socioService";
+import { initFlowbite, initDropdowns } from "flowbite";
+
+export default {
+  name: "ListSocio",
+  setup() {
+    const dni = ref("");
+    const socios = ref([]);
+    const router = useRouter();
+
+    // Obtener la lista de socios del servicio socioService al montar el componente
+    socios.value = socioService.getSocios();
+
+    // Filtrar la lista de socios basado en el valor de dni
+    const sociosFiltrados = ref([]);
+    const filtrarSocios = () => {
+      if (dni.value === "") {
+        sociosFiltrados.value = socios.value;
+      } else {
+        sociosFiltrados.value = socios.value.filter((socio) =>
+          socio.dni.includes(dni.value)
+        );
+      }
+    };
+
+    onMounted(() => {
+      initFlowbite();
+      filtrarSocios();
+    });
+    // Llamar a la función de búsqueda cada vez que el valor de dni cambie
+    watch(dni, filtrarSocios);
+
+    // Función para buscar al socio por DNI
+    const buscarSocio = () => {
+      console.log("Búsqueda de socio por DNI:", dni.value);
+    };
+
+    // Función para cargar el recibo
+    const cargarRecibo = (_dni) => {
+      router.push({ name: "recibo-socio", query: { dni: _dni } });
+      // router.push({ path: "/recibo-socio", params: { dni } });
+    };
+
+    const editarSocio = (_socio) => {
+      console.log(_socio);
+    };
+
+    return {
+      socios,
+      dni,
+      sociosFiltrados,
+      buscarSocio,
+      cargarRecibo,
+      editarSocio,
+    };
+  },
+};
+</script>
 
 <style>
 /* Puedes agregar estilos de Tailwind CSS aquí si es necesario */
