@@ -6,5 +6,5 @@ export default {
 </script>
 
 <template>
-  <p>Home</p>
+  <p>Bienvenido</p>
 </template>
