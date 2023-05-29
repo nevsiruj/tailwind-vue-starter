@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+import { initFlowbite, initDropdowns, initDrawers } from "flowbite";
+
+initDrawers();
+</script>
 
 <template>
   <nav
