@@ -59,6 +59,7 @@
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import socioService from "../../services/socioService";
+import { initFlowbite } from "flowbite";
 
 export default {
   name: "CargarRecibo",
@@ -79,6 +80,7 @@ export default {
     });
 
     onMounted(() => {
+      initFlowbite();
       const data = router.currentRoute.value.query.dni;
       // alert(data);
       if (data) {
