@@ -2,20 +2,6 @@
   <div class="container mx-auto px-4 py-8">
     <h1 class="text-2xl font-bold mb-4">Lista de Socios</h1>
 
-    <!-- drawer init and toggle -->
-    <div class="text-center">
-      <button
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        type="button"
-        data-drawer-target="drawer-right-example"
-        data-drawer-show="drawer-right-example"
-        data-drawer-placement="right"
-        aria-controls="drawer-right-example"
-      >
-        Show right drawer
-      </button>
-    </div>
-
     <!-- drawer component -->
     <div
       id="drawer-right-example"
